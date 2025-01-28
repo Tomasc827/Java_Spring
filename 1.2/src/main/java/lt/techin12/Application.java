@@ -15,7 +15,7 @@ public class Application {
 
   @GetMapping("/hello")
   public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-    return String.format("Hello ⊂_ヽ\n" +
+    return String.format("Hello ⊂_\n" +
             "　 ＼＼\n" +
             "　　 ＼( ͡° ͜ʖ ͡°)\n" +
             "　　　 >　⌒ヽ\n" +

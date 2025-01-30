@@ -55,7 +55,7 @@ public class MovieController {
     return ResponseEntity.status(404).build();
   }
 
-  @PatchMapping
+  @PatchMapping("/{id}")
   public ResponseEntity<Movie> patchMovie(@RequestBody Movie patchMovie, @PathVariable long id) {
     if (patchMovie == null) {
       return ResponseEntity.status(400).build();

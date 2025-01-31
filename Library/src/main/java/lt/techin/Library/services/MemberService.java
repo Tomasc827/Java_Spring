@@ -46,8 +46,8 @@ public class MemberService {
     if (!book.isRented()) {
       throw new BookNotRentedException(bookId);
     }
-    if (book.getMember() == null || book.getMember().getId() != memberId) {
-      throw new InvalidReturnException("This book was not rented by this member.");
+    if (book.getMember().getId() != memberId) {
+      throw new InvalidReturnException("Book with id " + bookId + " '" + book.getTitle() + "' was not rented by the member with id " + memberId);
     }
 
     book.setRented(false);

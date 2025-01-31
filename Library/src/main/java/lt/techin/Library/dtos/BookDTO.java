@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lt.techin.Library.models.Condition;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.math.BigDecimal;
 
@@ -21,5 +22,12 @@ public record BookDTO(@NotBlank(message = "Title is required")
                       BigDecimal price,
                       @NotNull(message = "Condition must be specified")
                       Condition condition,
-                      boolean isRented) {
+                      boolean isRented,
+                      String imageURL) {
+
+  public String imageURL() {
+    return (imageURL == null || imageURL.isEmpty())
+            ? "https://s26162.pcdn.co/wp-content/uploads/sites/2/2022/05/Book.jpg"
+            : imageURL;
+  }
 }

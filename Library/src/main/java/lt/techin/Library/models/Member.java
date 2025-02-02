@@ -17,7 +17,7 @@ public class Member {
   @Column(length = 100, nullable = false)
   private String name;
 
-  @Column(length = 100, nullable = false)
+  @Column(length = 100, nullable = false,unique = true)
   private String email;
   @Column(nullable = false)
   private String password;
@@ -60,7 +60,7 @@ public class Member {
   }
 
   public void setEmail(String email) {
-    this.email = email;
+    this.email = email != null ? email.trim() : null;
   }
 
   public String getPassword() {

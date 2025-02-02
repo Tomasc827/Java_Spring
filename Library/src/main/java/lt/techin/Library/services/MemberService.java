@@ -85,4 +85,23 @@ public class MemberService {
 
     return "Book rented Successfully";
   }
+
+  public boolean existsByEmail(String email) {
+    return memberRepository.existsByEmail(email);
+  }
+
+  public boolean existsByPassword(String password) {
+    return memberRepository.existsByPassword(password);
+  }
+  public boolean validateCredentials(String email, String password) {
+      return memberRepository.findByEmail(email)
+              .map(member -> member.getPassword().equals(password))
+              .orElse(false);
+  }
+
+  public Optional<Member> findByEmail(String email) {
+      return memberRepository.findByEmail(email);
+  }
+
+
 }

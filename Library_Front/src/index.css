@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+
+@layer components {
+  .super-btn {
+  @apply min-w-[8rem] bg-gradient-to-r from-purple-500 to-sky-500 hover:bg-gradient-to-l hover:from-purple-500 hover:to-sky-500  text-white font-bold py-2 px-4 rounded-full mx-2 text-2xl border-2 cursor-pointer; 
+  }
+  .super-btn-disabled {
+      @apply bg-gradient-to-r from-black to-gray-500 hover:from-black hover:to-gray-500 hover:bg-gradient-to-l;
+  }
+  .sm-error {
+      @apply text-red-500 text-sm pt-1;
+  }
+  .input {
+    @apply border-[4px] bg-sky-100 border-gray-600  p-2 mb-5 placeholder:text-xl min-w-[20rem] block;
+    border-image: linear-gradient(to right, #8b5cf6, #38bdf8) 1;
+  }
+  .input:focus {
+      @apply border-[4px];
+      border-image: linear-gradient(to right, #38bdf8, #8b5cf6) 1;
+      outline:none;
+  }
+  .label {
+    @apply text-purple-500 text-lg mb-2 font-bold;
+  }
+}

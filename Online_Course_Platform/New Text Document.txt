@@ -1,0 +1,19 @@
+Exercise: Online Course Platform
+You will build a simplified Online Course Platform using Spring Boot with a database that manages courses, instructors, students, and course enrollments.
+
+Entities:
+Instructor (One-to-Many with Course)
+
+An instructor can teach multiple courses.
+Each instructor has personal details (name, email, etc.)
+Course (Many-to-One with Instructor, Many-to-Many with Students)
+
+A course has a single instructor but may have many students.
+Each course will have a title, description, and duration.
+Student (Many-to-Many with Courses)
+
+A student can enroll in many courses.
+Each student has a name, email, and date of birth.
+Course Enrollment (Many-to-One with Course, Many-to-One with Student)
+
+This entity will track the relationship between students and courses, including enrollment date and completion status.

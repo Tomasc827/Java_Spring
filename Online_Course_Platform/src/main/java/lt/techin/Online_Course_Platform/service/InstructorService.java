@@ -49,16 +49,26 @@ public class InstructorService {
     return instructorRepository.findById(id);
   }
 
-  public Instructor updateInstructor(InstructorDTO instructorDTO, long id) {
-    Instructor existingInstructor = instructorRepository.findById(id).orElseThrow(() -> new NotFoundException("Instructor with the id '" + id + "' was not found"));
-    existingInstructor.setName(instructorDTO.name());
-    existingInstructor.setEmail(instructorDTO.email());
-    existingInstructor.setExpertise(instructorDTO.expertise());
-    existingInstructor.setAddress(instructorDTO.address());
+  public Instructor updateInstructor(InstructorDTO dto, long id) {
+    Instructor instructor = instructorRepository.findById(id).orElseThrow(() -> new NotFoundException("Instructor with the id '" + id + "' was not found"));
+    instructor.setName(dto.name());
+    instructor.setEmail(dto.email());
+    instructor.setExpertise(dto.expertise());
+    instructor.setAddress(dto.address());
+    if (dto.courses() !=null) {
+      instructor.setCourses(dto.courses().stream().map(courseDTO -> {
+        Course course = new Course();
+        course.setInstructor(courseDTO.instructor());
+        course.setDescription(courseDTO.description());
+        course.setDuration(courseDTO.duration());
+        course.setTitle(courseDTO.title());
+        instructor.getCourses().add(course);
+        return course;
+      }).toList());
+    }
+    instructorRepository.save(instructor);
 
-    instructorRepository.save(existingInstructor);
-
-    return existingInstructor;
+    return instructor;
   }
 
   public String addCourseToInstructor(long instructorId, long courseId) {

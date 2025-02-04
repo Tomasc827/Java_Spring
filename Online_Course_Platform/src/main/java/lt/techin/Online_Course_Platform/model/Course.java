@@ -1,10 +1,13 @@
 package lt.techin.Online_Course_Platform.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Table(name = "courses")
 public class Course {
   @Id
@@ -17,8 +20,10 @@ public class Course {
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "instructor_id")
-  @JsonIgnore
   private Instructor instructor;
+
+  @ManyToMany(mappedBy = "courses")
+  private List<Student> students;
 
   public Instructor getInstructor() {
     return instructor;
@@ -57,5 +62,13 @@ public class Course {
 
   public void setDuration(int duration) {
     this.duration = duration;
+  }
+
+  public List<Student> getStudents() {
+    return students;
+  }
+
+  public void setStudents(List<Student> students) {
+    this.students = students;
   }
 }

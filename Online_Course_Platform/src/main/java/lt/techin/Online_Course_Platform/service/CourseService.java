@@ -3,6 +3,7 @@ package lt.techin.Online_Course_Platform.service;
 
 import lt.techin.Online_Course_Platform.dto.CourseDTO;
 import lt.techin.Online_Course_Platform.model.Course;
+import lt.techin.Online_Course_Platform.model.Instructor;
 import lt.techin.Online_Course_Platform.repository.CourseRepository;
 import lt.techin.Online_Course_Platform.repository.InstructorRepository;
 import lt.techin.Online_Course_Platform.validation.NotFoundException;
@@ -43,8 +44,12 @@ public class CourseService {
     existingCourse.setTitle(courseDTO.title());
     existingCourse.setDuration(courseDTO.duration());
     existingCourse.setDescription(courseDTO.description());
-    if (existingCourse.getInstructor() != null) {
-      existingCourse.setInstructor(courseDTO.instructor());
+    if (courseDTO.instructor() != null) {
+      Instructor newInstructor = courseDTO.instructor();
+
+      if (existingCourse.getInstructor() == null ) {
+        existingCourse.setInstructor(newInstructor);
+      }
     }
 
     courseRepository.save(existingCourse);

@@ -1,12 +1,14 @@
 package lt.techin.Online_Course_Platform.model;
 
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "instructors")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Instructor {
 
   @Id

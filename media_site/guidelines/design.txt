@@ -1,0 +1,32 @@
+media site
+endpoints:
+1. users
+	a. username
+	b. email
+	c. password
+	d. role(Enum -> admin/regular)
+	e. image
+2. media 
+	a. title
+	b. categories -> another endpoint, possible to add new / or just Enum for fixed selection
+	c. release date -> year/month day not needed
+	d. episode count -> current available
+	e. episode total -> how many will be available
+	f. pseudo url to fetch videos
+	g. promotion art
+	h. type -> most likely Enum -> series,movie,ova??
+	I. description
+3. Comments many-to-one with media, also many to many with users?
+	a. date created -> for backend
+	b. content
+	c. Likes??? one to one with user, another endpoint? No, too complicated for me. Then again if I can manage ratings, might be doable
+	d. time posted -> for frontend, how long ago it was posted???
+4. Reviews many-to-one with media, can be many to many with user, no reason can't leave multiple reviews
+	a. title (of the review, optional)
+	b. content
+	c. date created
+5. Ratings many-to-one with media, many-to-one with user
+	a. rating -> Enum 1 to 5
+6.favorites many to one with user, can't tell what relationship with media is, one to one maybe?
+	a.isFavourited
+	

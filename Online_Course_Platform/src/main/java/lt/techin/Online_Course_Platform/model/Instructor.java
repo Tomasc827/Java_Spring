@@ -19,6 +19,8 @@ public class Instructor {
   private String email;
   private String expertise;
   private String address;
+  private String Password;
+
 
   @OneToMany(mappedBy = "instructor")
   private List<Course> courses;
@@ -39,6 +41,14 @@ public class Instructor {
 
   public void setCourses(List<Course> courses) {
     this.courses = courses;
+  }
+
+  public String getPassword() {
+    return Password;
+  }
+
+  public void setPassword(String password) {
+    Password = password;
   }
 
   public String getName() {

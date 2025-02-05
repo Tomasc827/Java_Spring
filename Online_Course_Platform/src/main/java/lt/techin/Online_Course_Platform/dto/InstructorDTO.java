@@ -27,6 +27,9 @@ public record InstructorDTO(@NotNull(message = "Name cannot be null")
                             @Size(min = 5, max = 200, message = "Address must be from 5 to 200")
                             @NoMultipleWhitespaces
                             String address,
-                            List<CourseDTO> courses) {
+                            List<CourseDTO> courses,
+                            @NotNull(message = "address cannot be null")
+                            @Pattern(regexp = "^(?=(.*[a-z]))(?=(.*[A-Z]))(?=(.*\\d))(?=(.*[\\W_])).{8,255}$", message = "must be password format")
+                            String password) {
 
 }

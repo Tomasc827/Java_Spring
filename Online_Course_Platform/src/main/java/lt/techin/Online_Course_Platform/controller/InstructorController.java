@@ -3,7 +3,6 @@ package lt.techin.Online_Course_Platform.controller;
 
 import jakarta.validation.Valid;
 import lt.techin.Online_Course_Platform.dto.InstructorDTO;
-import lt.techin.Online_Course_Platform.model.Course;
 import lt.techin.Online_Course_Platform.model.Instructor;
 import lt.techin.Online_Course_Platform.service.InstructorService;
 import lt.techin.Online_Course_Platform.utils.WebUtils;

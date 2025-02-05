@@ -2,7 +2,7 @@ package lt.techin.Dealership.controller;
 
 
 import jakarta.validation.Valid;
-import lt.techin.Dealership.CarNotFoundException;
+import lt.techin.Dealership.exceptions.CarNotFoundException;
 import lt.techin.Dealership.WebUtils;
 import lt.techin.Dealership.dto.CarDTO;
 import lt.techin.Dealership.model.Car;
@@ -19,51 +19,51 @@ import java.util.List;
 @RequestMapping("/api/cars")
 public class CarController {
 
-    private CarService carService;
+  private CarService carService;
 
-    @Autowired
-    public CarController(CarService carService) {
-        this.carService = carService;
-    }
+  @Autowired
+  public CarController(CarService carService) {
+    this.carService = carService;
+  }
 
 
-    @PostMapping
-    public ResponseEntity<Car> addCar(@Valid @RequestBody CarDTO carDTO) {
+  @PostMapping
+  public ResponseEntity<Car> addCar(@Valid @RequestBody CarDTO carDTO) {
     Car carVin = carService.saveCarWithVin(carDTO);
 
-        URI location = WebUtils.createLocation("/{id}",carVin.getId());
-        return ResponseEntity.created(location).body(carVin);
-    }
+    URI location = WebUtils.createLocation("/{id}", carVin.getId());
+    return ResponseEntity.created(location).body(carVin);
+  }
 
-    @GetMapping
-    public ResponseEntity<List<Car>> findAllCars() {
-        List<Car> cars = carService.findAllCars();
-        return ResponseEntity.ok().body(cars);
-    }
+  @GetMapping
+  public ResponseEntity<List<Car>> findAllCars() {
+    List<Car> cars = carService.findAllCars();
+    return ResponseEntity.ok().body(cars);
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Car> findCarById(@PathVariable long id) {
-        return carService.findCarById(id)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new CarNotFoundException(id));
+  @GetMapping("/{id}")
+  public ResponseEntity<Car> findCarById(@PathVariable long id) {
+    return carService.findCarById(id)
+            .map(ResponseEntity::ok)
+            .orElseThrow(() -> new CarNotFoundException(id));
 
-    }
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCarById(@PathVariable long id) {
-        return carService.findCarById(id)
-                .map(car -> {
-                    carService.deleteCarById(id);
-                    return ResponseEntity.noContent().build();
-                }).orElseThrow(() -> new CarNotFoundException(id));
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteCarById(@PathVariable long id) {
+    return carService.findCarById(id)
+            .map(car -> {
+              carService.deleteCarById(id);
+              return ResponseEntity.noContent().build();
+            }).orElseThrow(() -> new CarNotFoundException(id));
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Car> replaceCar(@Valid @RequestBody CarDTO carDTO, @PathVariable long id) {
-    Car updatedCar = carService.updatedCarWithVIN(id,carDTO);
+  @PutMapping("/{id}")
+  public ResponseEntity<Car> replaceCar(@Valid @RequestBody CarDTO carDTO, @PathVariable long id) {
+    Car updatedCar = carService.updatedCarWithVIN(id, carDTO);
 
-                    URI location = WebUtils.createLocation("/{id}", updatedCar.getId());
-                    return ResponseEntity.created(location).body(updatedCar);
-    }
+    URI location = WebUtils.createLocation("/{id}", updatedCar.getId());
+    return ResponseEntity.created(location).body(updatedCar);
+  }
 
 }

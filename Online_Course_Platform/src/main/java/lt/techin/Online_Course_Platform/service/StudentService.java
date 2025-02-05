@@ -1,6 +1,7 @@
 package lt.techin.Online_Course_Platform.service;
 
 import lt.techin.Online_Course_Platform.dto.StudentDTO;
+import lt.techin.Online_Course_Platform.dto.StudentMapper;
 import lt.techin.Online_Course_Platform.model.Course;
 import lt.techin.Online_Course_Platform.model.Student;
 import lt.techin.Online_Course_Platform.repository.CourseRepository;
@@ -15,48 +16,52 @@ import java.util.List;
 @Service
 public class StudentService {
 
-    private StudentRepository studentRepository;
+  private StudentRepository studentRepository;
 
-    private CourseRepository courseRepository;
+  private CourseRepository courseRepository;
 
-    @Autowired
-    public StudentService(StudentRepository studentRepository,CourseRepository courseRepository){
-        this.studentRepository = studentRepository;
-        this.courseRepository = courseRepository;
+  @Autowired
+  public StudentService(StudentRepository studentRepository, CourseRepository courseRepository) {
+    this.studentRepository = studentRepository;
+    this.courseRepository = courseRepository;
+  }
+
+
+  public List<Student> findAllStudents() {
+    return studentRepository.findAll();
+  }
+
+  public Student addStudent(StudentDTO dto) {
+    if (studentRepository.existsByEmail(dto.email())) {
+      throw new EmailExistsException("The email " + dto.email() + " already exists");
     }
+    Student student = StudentMapper.toDTO(dto);
 
+    studentRepository.save(student);
 
-    public List<Student> findAllStudents() {
-        return studentRepository.findAll();
-    }
+    return student;
+  }
 
-    public Student addStudent(StudentDTO dto) {
-        if(studentRepository.existsByEmail(dto.email())) {
-            throw new EmailExistsException("The email " + dto.email() + " already exists");
-        }
-        Student student = new Student();
-        student.setName(dto.name());
-        student.setDob(dto.dob());
-        student.setEmail(dto.email());
+  public Student updateStudent(StudentDTO dto, long id) {
+    Student student = studentRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Student with id '" + id + "' does not exist"));
+    StudentMapper.toDTO(dto, student);
+    return studentRepository.save(student);
+  }
 
-        studentRepository.save(student);
+  public String addCourseToStudent(long studentId, long courseId) {
+    Student student = studentRepository.findById(studentId)
+            .orElseThrow(() -> new NotFoundException("Student with id '" + studentId + "' does not exist"));
+    Course course = courseRepository.findById(courseId)
+            .orElseThrow(() -> new NotFoundException("Course with id '" + courseId + "' does not exist"));
 
-        return student;
-    }
+    student.getCourses().add(course);
+    course.getStudents().add(student);
 
-    public String addCourseToStudent(long studentId,long courseId) {
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new NotFoundException("Student with id '" + studentId + "' does not exist"));
-        Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new NotFoundException("Course with id '" + courseId + "' does not exist"));
+    studentRepository.save(student);
+    courseRepository.save(course);
 
-        student.getCourses().add(course);
-        course.getStudents().add(student);
-
-        studentRepository.save(student);
-        courseRepository.save(course);
-
-        return "Student successfully added to a course";
-    }
+    return "Student successfully added to a course";
+  }
 
 }

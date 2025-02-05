@@ -2,13 +2,13 @@ package lt.techin.Online_Course_Platform.service;
 
 
 import lt.techin.Online_Course_Platform.dto.CourseDTO;
+import lt.techin.Online_Course_Platform.dto.CourseMapper;
 import lt.techin.Online_Course_Platform.model.Course;
 import lt.techin.Online_Course_Platform.model.Instructor;
 import lt.techin.Online_Course_Platform.repository.CourseRepository;
 import lt.techin.Online_Course_Platform.repository.InstructorRepository;
 import lt.techin.Online_Course_Platform.validation.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,12 +27,7 @@ public class CourseService {
 
 
   public Course addCourse(CourseDTO courseDTO) {
-    Course course = new Course();
-    course.setInstructor(courseDTO.instructor());
-    course.setDescription(courseDTO.description());
-    course.setDuration(courseDTO.duration());
-    course.setTitle(courseDTO.title());
-
+    Course course = CourseMapper.courseToEntity(courseDTO);
     courseRepository.save(course);
     return course;
 
@@ -47,7 +42,7 @@ public class CourseService {
     if (courseDTO.instructor() != null) {
       Instructor newInstructor = courseDTO.instructor();
 
-      if (existingCourse.getInstructor() == null ) {
+      if (existingCourse.getInstructor() == null) {
         existingCourse.setInstructor(newInstructor);
       }
     }

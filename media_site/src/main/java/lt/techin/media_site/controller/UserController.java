@@ -10,12 +10,10 @@ import lt.techin.media_site.service.UserService;
 import lt.techin.media_site.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -37,5 +35,10 @@ public class UserController {
 
         return ResponseEntity.created(location).body(response);
     }
+//    @GetMapping
+//    public ResponseEntity<List<User>> findAllUsers() {
+//        List<User> users = userService.findAllUsers();
+//        return ResponseEntity.ok(users);
+//    }
 
 }

@@ -1,9 +1,12 @@
 package lt.techin.media_site.dto.user;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lt.techin.media_site.validation.NoMultipleWhitespaces;
+
+import java.time.LocalDate;
 
 public record UserPostDTO(@NotNull(message = "Username cannot be null")
                           @Size(min = 3,max = 100, message = "Username must be from 3 to 100 characters")
@@ -34,6 +37,13 @@ public record UserPostDTO(@NotNull(message = "Username cannot be null")
                           @NoMultipleWhitespaces
                           @Pattern(    regexp = "^https?:\\/\\/(?:[a-zA-Z0-9\\-._~!$&'()*+,;=:@\\/]|%[0-9A-F]{2})+$",
                                   message = "Must be a valid HTTP/HTTPS URL")
-                          String imageURL) {
+                          String imageURL,
+                          @NotNull(message = "dob cannot be null")
+                          @Pattern(
+                                  regexp = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+                                  message = "Date must be in YYYY-MM-DD format"
+                          )
+                          @Past(message = "Date of birth must be in the past")
+                          LocalDate dob) {
 }
 

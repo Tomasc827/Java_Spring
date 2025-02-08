@@ -58,9 +58,16 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             .csrf(csrf-> csrf.disable())
             .authorizeHttpRequests(authorize ->authorize
+                    .requestMatchers(HttpMethod.POST,"/api/medias").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET,"/api/medias").permitAll()
+                    .requestMatchers(HttpMethod.POST,"/{mediaId}/add-category").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.POST, "/api/authentication/**").permitAll()
                     .requestMatchers( HttpMethod.GET,"/api/test/admin").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.POST,"/api/users").permitAll()
+                    .requestMatchers(HttpMethod.GET,"/api/users").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE,"/api/users/admin/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE,"/api/users/{id}").hasRole("USER")
+                    .requestMatchers(HttpMethod.PATCH,"/api/users/{id}").hasRole("USER")
                     .requestMatchers(HttpMethod.GET,"/api/users").hasRole("ADMIN")
                     .anyRequest().authenticated()
             );

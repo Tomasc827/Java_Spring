@@ -4,6 +4,8 @@ import lt.techin.media_site.model.Media;
 import lt.techin.media_site.model.User;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class MediaMapper {
 

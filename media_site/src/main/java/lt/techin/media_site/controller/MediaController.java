@@ -43,7 +43,7 @@ public class MediaController {
         return ResponseEntity.ok(dtos);
     }
     @PostMapping("/{mediaId}/add-category")
-    public ResponseEntity<?> addCategory(@PathVariable long mediaId, CategoryEnum categoryEnum) {
+    public ResponseEntity<?> addCategory(@PathVariable long mediaId,@Valid @RequestBody CategoryEnum categoryEnum) {
         mediaService.addCategory(mediaId,categoryEnum);
         String category = categoryService.findCategoryByCategory(categoryEnum).getCategory().toString();
         return ResponseEntity.ok().body(category);

@@ -46,4 +46,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryDoesNotExist(CategoryAlreadyExistsException ex) {
+        ErrorResponse err = new ErrorResponse("Category does not exist", ex.getMessage());
+        return new ResponseEntity<>(err,HttpStatus.BAD_REQUEST);
+    }
+
 }

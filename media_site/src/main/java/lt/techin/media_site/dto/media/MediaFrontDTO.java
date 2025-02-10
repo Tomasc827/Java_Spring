@@ -7,6 +7,7 @@ import lt.techin.media_site.model.media_enum.Type;
 import java.time.LocalDate;
 import java.util.List;
 
+
 public record MediaFrontDTO(String title,
                             LocalDate releaseDate,
                             String videoURL,

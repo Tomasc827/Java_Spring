@@ -9,8 +9,10 @@ import lt.techin.media_site.model.Media;
 import lt.techin.media_site.model.media_enum.CategoryEnum;
 import lt.techin.media_site.repository.CategoryRepository;
 import lt.techin.media_site.repository.MediaRepository;
+import lt.techin.media_site.validation.exception.CategoryAlreadyExistsException;
 import lt.techin.media_site.validation.exception.IdDoesNotExistException;
 import lt.techin.media_site.validation.exception.MediaExistsException;
+import lt.techin.media_site.validation.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,9 +55,14 @@ public class MediaService {
         if(categoryEnum.toString().equals(media.getCategories().stream().map(Category::getCategory))) {
             throw new IllegalArgumentException("TBD");
         }
-        Category category =
-                categoryRepository.findByCategory(categoryEnum).orElseThrow(() -> new IdDoesNotExistException("Category with " +
-                        "id '" + categoryEnum + "'does not exist"));
+        boolean categoryExists = media.getCategories()
+                        .stream()
+                                .anyMatch(category -> category.getCategory() == categoryEnum);
+        if (categoryExists) {
+            throw new CategoryAlreadyExistsException("Category '" + categoryEnum + "' already exists for this media");
+        }
+        Category category = categoryRepository.findByCategory(categoryEnum).orElseThrow(()-> new NotFoundException(
+                "Category " + categoryEnum + "does not exist"));
 
         media.getCategories().add(category);
         return mediaRepository.save(media);

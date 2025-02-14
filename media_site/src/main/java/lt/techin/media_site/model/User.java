@@ -39,6 +39,14 @@ public class User implements UserDetails {
 
     }
 
+    public User(String username, String email, String password, String imageURL, LocalDate dob) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.imageURL = imageURL;
+        this.dob = dob;
+    }
+
     public long getId() {
         return id;
     }

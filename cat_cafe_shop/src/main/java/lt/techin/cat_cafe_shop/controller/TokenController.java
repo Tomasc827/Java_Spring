@@ -1,8 +1,7 @@
-package lt.techin.jwt.controller;
+package lt.techin.cat_cafe_shop.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/token")
 public class TokenController {
 
-
     private JwtEncoder jwtEncoder;
 
     @Autowired
@@ -30,23 +28,21 @@ public class TokenController {
     @PostMapping
     public String token(Authentication authentication) {
         Instant currentTime = Instant.now();
-
-        long expiration = 360000L;
+        long plus = 360000L;
 
         String scope = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
 
-        JwtClaimsSet claimsSet = JwtClaimsSet.builder()
+        JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(currentTime)
-                .expiresAt(currentTime.plusSeconds(expiration))
+                .expiresAt(currentTime.plusSeconds(plus))
                 .subject(authentication.getName())
                 .claim("scope",scope)
                 .build();
 
-        return jwtEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
+        return jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();
     }
-
 }

@@ -1,6 +1,7 @@
 package lt.techin.cat_cafe_shop.validation;
 
 
+import lt.techin.cat_cafe_shop.validation.exception.AdoptionNotFoundException;
 import lt.techin.cat_cafe_shop.validation.exception.EmailInUseException;
 import lt.techin.cat_cafe_shop.validation.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -31,5 +32,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleNotFound(NotFoundException e) {
         ErrorResponse err = new ErrorResponse("Entity Not Found",e.getMessage());
         return new ResponseEntity<>(err,HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(AdoptionNotFoundException.class)
+    public ResponseEntity<?> handleAdoptionNotFound(AdoptionNotFoundException e) {
+        return new ResponseEntity<>(Map.of("error",e.getMessage()),HttpStatus.NOT_FOUND);
     }
 }

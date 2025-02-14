@@ -8,6 +8,7 @@ import lt.techin.cat_cafe_shop.model.CatAdoption;
 import lt.techin.cat_cafe_shop.model.User;
 import lt.techin.cat_cafe_shop.repository.CatAdoptionsRepository;
 import lt.techin.cat_cafe_shop.repository.UserRepository;
+import lt.techin.cat_cafe_shop.validation.exception.AdoptionNotFoundException;
 import lt.techin.cat_cafe_shop.validation.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +58,7 @@ public class CatAdoptionService {
     }
 
     public CatAdoption changeAdoptionStatus(CatAdoptionPutRequestDTO dto, long id) {
-        CatAdoption catAdoption = catAdoptionsRepository.findById(id).orElseThrow(() -> new NotFoundException("Adoption with id '" + id + "was not found"));
+        CatAdoption catAdoption = catAdoptionsRepository.findById(id).orElseThrow(() -> new AdoptionNotFoundException("Adoption request not found"));
         catAdoption.setStatus(dto.status());
         catAdoptionsRepository.save(catAdoption);
         return catAdoption;

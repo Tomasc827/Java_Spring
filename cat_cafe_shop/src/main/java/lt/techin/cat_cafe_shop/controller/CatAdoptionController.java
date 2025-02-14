@@ -9,12 +9,14 @@ import lt.techin.cat_cafe_shop.model.CatAdoption;
 import lt.techin.cat_cafe_shop.service.CatAdoptionService;
 import lt.techin.cat_cafe_shop.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/adoptions")
@@ -53,7 +55,7 @@ public class CatAdoptionController {
 
     @PutMapping("/{adoptionId}/approve")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
-    public ResponseEntity<CatAdoptionPutResponseDTO> approveCatAdoption(@Valid @RequestBody CatAdoptionPutRequestDTO dto
+    public ResponseEntity<?> approveCatAdoption(@Valid @RequestBody CatAdoptionPutRequestDTO dto
             , @PathVariable long adoptionId) {
         CatAdoption catAdoption = catAdoptionService.changeAdoptionStatus(dto,adoptionId);
         CatAdoptionPutResponseDTO responseDTO = new CatAdoptionPutResponseDTO(catAdoption.getId(),
